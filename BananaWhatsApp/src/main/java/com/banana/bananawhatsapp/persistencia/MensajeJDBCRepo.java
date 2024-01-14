@@ -85,6 +85,18 @@ public class MensajeJDBCRepo implements IMensajeRepository {
 
     @Override
     public boolean borrarTodos(Usuario usuario) throws SQLException {
-        return false;
+        String sql = "DELETE mensaje m WHERE m.from_user=?";
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            usuario.valido();
+            stmt.setInt(1, usuario.getId());
+        } catch (UsuarioException e) {
+            throw e;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException(e);
+        }
+        return true;
     }
-}
