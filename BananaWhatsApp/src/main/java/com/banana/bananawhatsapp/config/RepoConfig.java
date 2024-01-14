@@ -1,5 +1,6 @@
 package com.banana.bananawhatsapp.config;
 
+import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.persistencia.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,13 @@ public class RepoConfig {
         repo.setDb_url(connUrl);
         return repo;
     }
-
+    @Bean
+    @Profile("prod")
+    IMensajeRepository crearMensajeRepoJDBC(){
+        MensajeJDBCRepo repom = new MensajeJDBCRepo();
+        repom.setDb_url(connUrl);
+        return repom;
+    }
     @Bean
     @Profile("dev")
     IUsuarioRepository crearUsuarioRepoInMemo(){
@@ -30,10 +37,9 @@ public class RepoConfig {
     }
 
     @Bean
-    @Profile("prod")
-    IMensajeRepository crearMensajeRepoJDBC(){
-        MensajeJDBCRepo repo = new MensajeJDBCRepo();
-        repo.setDb_url(connUrl);
-        return repo;
+    @Profile("dev")
+    IMensajeRepository crearMensajeRepoInMemo(){
+        MensajeInMemoryRepo repom = new MensajeInMemoryRepo();
+        return repom;
     }
 }

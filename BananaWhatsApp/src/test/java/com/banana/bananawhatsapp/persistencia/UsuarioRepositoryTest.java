@@ -25,18 +25,12 @@ class UsuarioRepositoryTest {
     @Autowired
     IUsuarioRepository repo;
 
-    @Autowired
-    IMensajeRepository mensajeRepository;
-
     @BeforeAll
-    void setUp(){
-        // inserts
-    }
 
     @Test
     @Order(1)
     void dadoUnUsuarioValido_cuandoCrear_entoncesUsuarioValido() throws Exception {
-        Usuario nuevo = new Usuario(null, "Ricardo", "r@r.com", LocalDate.now(), true);
+        Usuario nuevo = new Usuario(null, "Diego", "diego@mutuamotera.com", LocalDate.now(), true);
         repo.crear(nuevo);
 
         assertThat(nuevo, notNullValue());
@@ -46,7 +40,7 @@ class UsuarioRepositoryTest {
     @Test
     @Order(2)
     void dadoUnUsuarioNOValido_cuandoCrear_entoncesExcepcion() {
-        Usuario nuevo = new Usuario(null, "Ricardo", "r", LocalDate.now(), true);
+        Usuario nuevo = new Usuario(null, "Diego", "diego@", LocalDate.now(), true);
         assertThrows(Exception.class, () -> {
             repo.crear(nuevo);
         });
