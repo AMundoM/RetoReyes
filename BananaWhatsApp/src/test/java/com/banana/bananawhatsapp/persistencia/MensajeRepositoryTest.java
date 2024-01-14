@@ -1,22 +1,27 @@
 package com.banana.bananawhatsapp.persistencia;
 
+import com.banana.bananawhatsapp.config.SpringConfig;
 import com.banana.bananawhatsapp.modelos.Mensaje;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {SpringConfig.class})
 class MensajeRepositoryTest {
 
-    IMensajeRepository repo;
-
     @Autowired
-    IMensajeRepository mensajeRepository;
+    IMensajeRepository repo;
 
     @Test
     void dadoUnMensajeValido_cuandoCrear_entoncesMensajeValido() throws Exception{
         Mensaje nuevo = new Mensaje(null,"usurem","usudest","primer msj", LocalDate.now());
         repo.crear(nuevo);
+
     }
 
     @Test

@@ -22,7 +22,8 @@ public class Usuario {
     }
 
     private boolean validarEmail() {
-        return this.email != null && this.email.indexOf("@") > 0 && this.email.indexOf(".") > 0;
+        return this.email != null && this.email.indexOf("@") > 0 && this.email.indexOf(".") > 0
+               && this.email.indexOf(".com") > 0 && this.email.indexOf(".es") > 0;
     }
 
     private boolean validarAlta() {

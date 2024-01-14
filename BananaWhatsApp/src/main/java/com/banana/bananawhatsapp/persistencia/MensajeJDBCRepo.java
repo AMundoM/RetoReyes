@@ -1,5 +1,6 @@
 package com.banana.bananawhatsapp.persistencia;
 
+import com.banana.bananawhatsapp.exceptions.MensajeException;
 import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
@@ -16,7 +17,35 @@ public class MensajeJDBCRepo implements IMensajeRepository {
 
     @Override
     public Mensaje crear(Mensaje mensaje) throws SQLException {
-        return null;
+        String sql = "INSERT INTO mensaje values (NULL,?,?,?,?)";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            mensaje.valido();
+
+            stmt.setString(1, mensaje.getRemitente());
+            stmt.setString(2, mensaje.getDestinatario());
+            stmt.setString(3, mensaje.getCuerpo());
+            stmt.setDate(4, Date.valueOf(mensaje.getFecha()));
+
+            int rows = stmt.executeUpdate();
+
+            ResultSet genKeys = stmt.getGeneratedKeys();
+            if (genKeys.next()) {
+                mensaje.setId(genKeys.getInt(1));
+            } else {
+                throw new SQLException("No id mensaje asignado");
+            }
+        } catch (MensajeException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException(e);
+        }
+        return mensaje;
     }
 
     @Override

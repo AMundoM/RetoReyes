@@ -25,9 +25,9 @@ public class RepoConfig {
     @Bean
     @Profile("prod")
     IMensajeRepository crearMensajeRepoJDBC(){
-        MensajeJDBCRepo repom = new MensajeJDBCRepo();
-        repom.setDb_url(connUrl);
-        return repom;
+        MensajeJDBCRepo repo = new MensajeJDBCRepo();
+        repo.setDb_url(connUrl);
+        return repo;
     }
     @Bean
     @Profile("dev")
@@ -39,7 +39,7 @@ public class RepoConfig {
     @Bean
     @Profile("dev")
     IMensajeRepository crearMensajeRepoInMemo(){
-        MensajeInMemoryRepo repom = new MensajeInMemoryRepo();
-        return repom;
+        MensajeInMemoryRepo repo = new MensajeInMemoryRepo();
+        return repo;
     }
 }
